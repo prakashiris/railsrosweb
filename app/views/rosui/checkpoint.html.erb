@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"/>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <title>ROSWEBUI</title>
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application" %>
+    <title></title>
+
+  </head>
+  <body onload="init()">
+
+
+              <ul id="menu">
+                <a href="index"><li class="icon fa fa-bolt" id="uno"></li></a>
+                <a href="teleop"><li class="icon fa fa-keyboard-o" id="dos"></li></a>
+                <a href="#t3"><li class="icon fa fa-rocket" id="tres"></li></a>
+                <a href="#t4"><li class="icon fa fa-dribbble" id="cuatro"></li></a>
+                <a href="#t5"><li class="icon fa fa-plus-circle" id="cinco"></li></a>
+              </ul>
+
+
+              <div class="page" id="p3">
+                <div class="row">
+                  <div id="twod-map" ></div>
+
+                </div>
+                       <!-- <div class="base"> -->
+
+                       <form method="POST" class="forms">
+                         <div id='dynamicInput' class="formblock" >
+                                <div class="containers ">
+                               <label class="form-input-container">
+                                 <span class="form-input-label">
+                                   Username
+                                 </span>
+                                 <input class="form-input form-control" type="text" id="username" name="username"/>
+                               </label></div>
+                                 <div class="containers ">
+                                 <label class="form-input-container" for="goalx">
+                                 <span class="form-input-label">
+                                   X
+                                 </span>
+                                 <input class="form-input form-control" id ="goalx" name="goalx"/>
+                                 </label></div>
+                                 <div class="containers ">
+                                 <label class="form-input-container" for="goaly">
+                                 <span class="form-input-label">
+                                   Y
+                                 </span>
+                                 <input class="form-input form-control"  id="goaly" name="goaly"/>
+                               </label></div>
+                               <div class="containers ">
+                               <label class="form-input-container">
+                                   <button  class="btn btn-primary btn-lg btn-success" id="savebtn">Save</button>
+                              </label></div>
+                              <div class='divImgContainer' onclick='ShowMarker(event);'>
+                         </div>
+                        </form>
+                       </div>
+                       <div class="goal">
+                         <!-- <form action="" id="input4radio">
+                            <input type="radio" name="ans"><br>
+                            <input type="radio" name="ans"><br>
+                            <input type="radio" name="ans"><br>
+                            <input type="radio" name="ans"><br>
+                          </form> -->
+                         <input class="form-input form-control" id ="goalpass" name="goalpass"/><br>
+                         <button  class="btn btn-primary btn-lg btn-success" id="sendgoalbtn">SendGoal</button>
+                       </div>
+                     <div id="msg">
+                          <h6>CheckPoint Data</h6>
+                           <pre></pre>
+                     </div>
+                     <!-- </div> -->
+                     <!-- Pose Table -->
+
+
+
+
+  </body>
+  </html>

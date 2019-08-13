@@ -14,6 +14,7 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+require init
 require jquery
 require display
 require eventemitter2

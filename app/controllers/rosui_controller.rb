@@ -1,9 +1,14 @@
 class RosuiController < ApplicationController
-  def home
 
-    render layout:false
+  def checkpoint
+  end
+  def teleop
+    # render layout:false
+      checkpoint
   end
   def index
     render layout:false
+    teleop
+    checkpoint
   end
 end

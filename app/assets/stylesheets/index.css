@@ -9,6 +9,7 @@ html, body, .page {
   -o-transition: all .6s cubic-bezier(.5, .2, .2, 1.1);
   color: #fff;
   overflow: hidden;
+  background: black;
 }
 
 * {
@@ -20,23 +21,24 @@ html, body, .page {
 }
 
 #p1 {
-  left: 0;
+  left: 10%;
+  background: darkslateblue;
 }
 
-#p2, #p3, #p4, #p5 {
+#p2{
   left: 200%;
+  background: tomato;
+}
+#p3{
+  left: 200%;
+  top:0;
+  background: gold;
 }
 
-#p1 { background: darkslateblue; }
-#p2 { background: tomato; }
-#p3 { background: gold; }
 #p4 { background: deeppink; }
 #p5 { background: rebeccapurple; }
 
-#t2:target #p2,
-#t3:target #p3,
-#t4:target #p4,
-#t5:target #p5 {
+ #p2, #p3, #p4, #p5 {
   transform: translateX(-190%);
   -webkit-transform: translateX(-190%);
   -moz-transform: translateX(-190%);
@@ -44,19 +46,8 @@ html, body, .page {
   transition-delay: .4s !important;
 }
 
-#t2:target #p1,
-#t3:target #p1,
-#t4:target #p1,
-#t5:target #p1{
-  background: black;
-}
 
-#t2:target #p1 .icon,
-#t3:target #p1 .icon,
-#t4:target #p1 .icon,
-#t5:target #p1 .icon {
-  -webkit-filter: blur(3px);
-}
+
 
 .icon {
   color: #fff;
@@ -108,6 +99,7 @@ ul {
 
 #menu .icon {
   margin: 30px 0;
+
   transition: all .5s ease-out !important;
   -webkit-transition: all .5s ease-out;
   -moz-transition: all .5s ease-out;
@@ -179,7 +171,7 @@ a {
   transform: translateX(10%) !important;
 }
 
-#t2:target .page#p2 .icon,
+/* #t2:target .page#p2 .icon,
 #t3:target .page#p3 .icon,
 #t4:target .page#p4 .icon,
 #t5:target .page#p5 .icon {
@@ -188,8 +180,14 @@ a {
   -moz-transform: translateX(0) !important;
   -o-transform: translateX(0) !important;
   transition-delay: 1s;
-}
+} */
 
 #p2 {
   font-size: 10px;
+}
+
+.alert{
+  left: 20%;
+  width: 300px;
+  height: 200px;
 }

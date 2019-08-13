@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"/>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <title>ROSWEBUI</title>
+
+
+    <%= stylesheet_link_tag "application" %>
+    <%= javascript_include_tag "application" %>
+    <title></title>
+
+  </head>
+  <body onload="init()">
+
+              <ul id="menu">
+                <a href="index"><li class="icon fa fa-bolt" id="uno"></li></a>
+                <a href="teleop"><li class="icon fa fa-keyboard-o" id="dos"></li></a>
+                <a href="checkpoint"><li class="icon fa fa-rocket" id="tres"></li></a>
+                <a href="#t4"><li class="icon fa fa-dribbble" id="cuatro"></li></a>
+                <a href="#t5"><li class="icon fa fa-plus-circle" id="cinco"></li></a>
+              </ul>
+
+              <div class="page" id="p2">
+                <div class="row">
+                  <div id="twod-map" ></div>
+
+                </div>
+
+                <div class="base">
+
+                  <div>
+                    <button class="control-Btn" id="n" value=87><span>L+</span></button>
+                    <button class="control-Btn" id="m" value=81><span>L/A +</span></button>
+                    <button class="control-Btn"  id="e" value=69><span>A+</span></button>
+                  </div>
+
+                  <div class="value">
+                    <div id="linear-published" style="color: green"></div>
+                    <div id="linear-current" style="color: red"></div>
+                  </div>
+
+                  <div class="value">
+                    <div id="angular-published" style="color: green"></div>
+                    <div id="angular-current" style="color: red"></div>
+                  </div>
+
+                  <div>
+                    <button class="control-Btn" id="x" value=88><span>L-</span></button>
+                    <button class="control-Btn" id="s" value=90><span>L/A -</span></button>
+                    <button class="control-Btn" id="c" value=67><span>A-</span></button>
+                  </div>
+
+                </div>
+                <div class="basee">
+                    <!-- Control Buttons -->
+                    <!-- Row 1 -->
+                    <div>
+                      <button class="control-Btn" id="u" value=85 style="font-size: 30px"><i class="fa fa-reply"></i></button>
+                      <button class="control-Btn" id="i" value=73><i class="fa fa-angle-up"></i></button>
+                      <button class="control-Btn" id="o" value=79 style="font-size: 30px"><i class="fa fa-share"></i></button>
+                    </div>
+                    <!-- Row 2 -->
+                    <div>
+                      <button class="control-Btn" id="j" value=74> <span><i class="fa fa-angle-left"></i></span></button>
+                      <button class="control-Btn" id="k" value=75 style="color: red"><i class="fa fa-circle"></i></button>
+                      <button class="control-Btn" id="l" value=76><i class="fa fa-angle-right"></i></button>
+                    </div>
+                    <!-- Row -->
+                    <div>
+                      <button class="control-Btn" id="q" value=77><i class="fa fa-reply"></i></button>
+                      <button class="control-Btn"  id="z" value=188><i class="fa fa-angle-down"></i></button>
+                      <button class="control-Btn" id="w" value=190><i class="fa fa-share"></i></button>
+                    </div>
+                    <div></div>
+                </div>
+                     <!-- </div> -->
+                     <!-- Pose Table -->
+                </div>
+
+
+  </body>
+  </html>

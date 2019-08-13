@@ -2,450 +2,78 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <meta name="designer" content="Alberto Hartzet">
-    <meta name="programer" content="Alberto Hartzet">
-    <meta name="author" content="Alberto Hartzet">
-    <meta name="description" content="One page navigation with pure CSS">
-    <meta property="og:url" content="https://codepen.io/hrtzt/details/NPZKRN">
-    <meta property="og:image" content="https://pbs.twimg.com/media/CCNJN_XUMAAJSzU.jpg:large">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"/>
-     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>ROSWEBUI</title>
+
+          
     <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "application" %>
-    <script>
+    <script type="text/javascript">
 
-      function init() {
-        // ----------------------------------------------------------------------
-        // Connecting to rosbridge
+        $(document).ready(function(){
+        // var currCord = getCoord();
 
-        // The Ros object is responsible for connecting to rosbridge.
-        var ros = new ROSLIB.Ros();
-        // When a connection is established with rosbridge, a 'connection' event
-        // is emitted. In the event callback, we print a success message to the
-        // screen.
-        ros.on('connection', function() {
-          // displaySuccess is a convenience function for outputting messages in
-          // HTML.
-          displaySuccess('Roslibjs connected to rosbridge.');
-        });
-        // Connects to rosbridge.
-        ros.connect('ws://192.168.31.72:9090');
-
-        // ----------------------------------------------------------------------
-        // Subscribing to the robot's Pose
-        // ----------------------------------------------------------------------
-        //Initialize the teleop.
-
-        //   var listener = new ROSLIB.Topic({
-        //     ros : ros,
-        //     name : '/audio',
-
-        //     messageType : 'audio_common_msgs/AudioData'
-        //   });
-        // ​
-          // Then we add a callback to be called every time a message is published on this topic.
-        //   listener.subscribe(function(message) {
-        //     console.log('Received message on ' + listener.name + ': ' + String(message.data));
-        // ​
-        //     // If desired, we can unsubscribe from the topic as well.
-        // ​
-        //   });
-        var teleop = new KEYBOARDTELEOP.Teleop({
-          ros : ros,
-          topic : '/robot_base/cmd_vel'
-        });
-      //   var viewer = new MJPEGCANVAS.Viewer({
-      //   divID : 'mjpeg',
-      //   host: "192.168.0.127",
-      //   width : 640,
-      //   height : 480,
-      //   topic : '/camera/rgb/image_raw',
-      //   interval: 200
-      // });
-
-
-        // The ROSLIB.Topic handles subscribing and publishing a ROS topic. This
-        // topic interacts with the /robot_pose topic, published by the robot.
-        var poseTopic = new ROSLIB.Topic({
-          ros         : ros,
-          name        : '/robot_pose',
-          messageType : 'geometry_msgs/Pose'
-        });
-        // Subscribes to the robot's pose. When rosbridge receives the pose
-        // message from ROS, it forwards the message to roslibjs, which calls this
-        // callback.
-        poseTopic.subscribe(function(message) {
-          // Formats the pose for outputting.
-          var now = new Date();
-          var position = 'x: ' + message.position.x
-                  + ', y: ' + message.position.y
-                  + ', z: 0.0';
-          var orientation = 'x: ' + message.orientation.x
-                  + ', y: ' + message.orientation.y
-                  + ', z: ' + message.orientation.z
-                  + ', w: ' + message.orientation.w;
-          // Prepends a row to the "poses" table with the formatted pose.
-          $('#poses > tbody > tr:first').after('<tr>'
-                  + '<td>' + now.toLocaleTimeString() + '</td>'
-                  + '<td>' + position + '</td>'
-                  + '<td>' + orientation + '</td>');
-        });
-
-        // ----------------------------------------------------------------------
-        // Displaying a map
-        // ----------------------------------------------------------------------
-
-        // The ROS2D.Viewer is a 2D scene manager with additional ROS
-        // functionality.
-        var viewer2D = new ROS2D.Viewer({
-          divID : 'twod-map',
-          width : 1000,
-          height : 400,
-
-        });
-
-        // viewer2D.shift(10, -50);
-        // Subscribes to the robot's OccupancyGrid, which is ROS representation of
-        // the map, and renders the map in the scene.
-        var gridClient = new ROS2D.OccupancyGridClient({
-          ros : ros,
-          rootObject : viewer2D.scene
-        });
-        // Scale the canvas to fit to the map
-        gridClient.on('change', function() {
-          viewer2D.scaleToDimensions(gridClient.currentGrid.width, gridClient.currentGrid.height);
-          viewer2D.shift(gridClient.currentGrid.pose.position.x, gridClient.currentGrid.pose.position.y);
-          displayPoseMarker();
-          // console.log(gridClient.currentGrid.pose.position.x);
-        });
-            // Setup the nav client.
-            console.log('asa')
-       var nav =  NAV2D.OccupancyGridClientNav({
-            ros : ros,
-            rootObject : viewer2D.scene,
-            viewer : viewer2D,
-            serverName : '/move_base'
-         });
-         console.log("asas")
-
-
-        //  viewer2D.shift(-120,50);
-        // ----------------------------------------------------------------------
-        // Showing the pose on the map
-        // ----------------------------------------------------------------------
-
-        function displayPoseMarker() {
-          // Create a marker representing the robot.
-          var robotMarker = new ROS2D.NavigationArrow({
-            size : 5,
-            strokeSize : 0,
-            fillColor : createjs.Graphics.getRGB(25, 128, 0, 0.66),
-            pulse : true
-          });
-          robotMarker.visible = false;
-
-          // Add the marker to the 2D scene.
-          gridClient.rootObject.addChild(robotMarker);
-          var initScaleSet = false;
-
-          // Subscribe to the robot's pose updates.
-          var poseListener = new ROSLIB.Topic({
-            ros : ros,
-            name : '/robot_pose',
-            messageType : 'geometry_msgs/Pose',
-            throttle_rate : 10
-          });
-          poseListener.subscribe(function(pose) {
-            // Orientate the marker based on the robot's pose.
-            robotMarker.x = pose.position.x;
-            robotMarker.y = -pose.position.y;
-            if (!initScaleSet) {
-              robotMarker.scaleX = 1.0 / viewer2D.scene.scaleX;
-              robotMarker.scaleY = 1.0 / viewer2D.scene.scaleY;
-              initScaleSet = true;
+        $(".mainContainer").imagePointer({
+            // pointerArray    : currCord,
+            pointerCallBack : function(pointerInfo){
+                $('#outputElm').html(JSON.stringify(pointerInfo));
+                // // currCord = getCoord();
+                // currCord.push(pointerInfo);
+                // document.cookie="coord=" + JSON.stringify(currCord);
             }
+        });
 
-            robotMarker.rotation = viewer2D.scene.rosQuaternionToGlobalTheta(pose.orientation);
-            robotMarker.visible = true;
-
-          });
-        }
-        }
-
-
-        // ----------------------------------------------------------------------
-        // Rendering the robot in 3D
-        // ----------------------------------------------------------------------
-
-        // Create the scene manager and view port for the 3D world.
-        // var viewer3D = new ROS3D.Viewer({
-        //   divID      : 'threed-map',
-        //   width      : 600,
-        //   height     : 300,
-        //   antialias  : true,
-        //   background : '#EEEEEE'
-        // });
-
-        // // Create a TF client that subscribes to the fixed frame.
-        // var tfClient = new ROSLIB.TFClient({
-        //   ros          : ros,
-        //   angularThres : 0.01,
-        //   transThres   : 0.01,
-        //   rate         : 10.0
-        // });
-
-        // // Add the URDF model of the robot.
-        // var urdfClient = new ROS3D.UrdfClient({
-        //   ros        : ros,
-        //   tfClient   : tfClient,
-        //   path       : 'http://resources.robotwebtools.org/',
-        //   rootObject : viewer3D.scene
-        // });
-
-        // // ----------------------------------------------------------------------
-        // // Rendering the map in 3D
-        // // ----------------------------------------------------------------------
-
-        // // Add the Occupancy Grid map.
-        // var grid = new ROS3D.OccupancyGridClient({
-        //   ros        : ros,
-        //   tfClient   : tfClient,
-        //   rootObject : viewer3D.scene
-        // });
-        // grid.on('change', function() {
-        //   // Change the opacity level.
-        //   grid.currentGrid.children[0].material.transparent = true;
-        //   grid.currentGrid.children[0].material.opacity = 0.25;
-        //   grid.currentGrid.children[0].material.needsUpdate = true;
-        // });
-
-        // // ----------------------------------------------------------------------
-        // // 3D all the things
-        // // ----------------------------------------------------------------------
-
-        // // Load the 3D mesh of the Willow Garage floorplan.
-        // var building = new ROS3D.SceneNode({
-        //   tfClient : tfClient,
-        //   frameID  : '/map',
-        //   object   : new ROS3D.MeshResource({
-        //     path     : 'http://resources.robotwebtools.org/models/willow_garage/',
-        //     resource : 'willow.dae'
-        //   }),
-        //   pose : new ROSLIB.Pose({
-        //     position : {
-        //       x : 18.5,
-        //       y : 66.75,
-        //       z : 0
-        //     },
-        //     orientation : {
-        //       x : 0,
-        //       y : 0,
-        //       z : -0.83602597651332,
-        //       w : 0.5486898637618064
-        //     }
-        //   })
-        // });
-        // // Add the floorplan mesh to the 3D scene.
-        // viewer3D.addObject(building);
-
-      /**
-       * Setup all GUI elements when the page is loaded.
-       */
+    });
+    // function getCoord(){
+    //     var currCord = getCookie("coord");
+    //     if(currCord === ""){
+    //         currCord = [];
+    //     }else{
+    //         currCord = JSON.parse(currCord);
+    //     }
+    //     return currCord;
+    // }
+    // function getCookie(cname) {
+    //     var name = cname + "=";
+    //     var ca = document.cookie.split(';');
+    //     for(var i=0; i<ca.length; i++) {
+    //         var c = ca[i];
+    //         while (c.charAt(0)==' ') c = c.substring(1);
+    //         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    //     }
+    //     return "";
+    // }
 
 
-    </script>
+</script>
+
   </head>
-  <body>
-    <div class="ct" id="t1">
-      <div class="ct" id="t2">
-        <div class="ct" id="t3">
-          <div class="ct" id="t4">
-             <div class="ct" id="t5">
+  <body onload="init()">
+    <div class="menus">
+
+
               <ul id="menu">
-                <a href="#t"><li class="icon fa fa-bolt" id="uno"></li></a>
-                <a href="home"><li class="icon fa fa-keyboard-o" id="dos"></li></a>
-                <a href="#t3"><li class="icon fa fa-rocket" id="tres"></li></a>
+                <a href="#t1"><li class="icon fa fa-bolt" id="uno"></li></a>
+                <a href="teleop"><li class="icon fa fa-keyboard-o" id="dos"></li></a>
+                <a href="checkpoint"><li class="icon fa fa-rocket" id="tres"></li></a>
                 <a href="#t4"><li class="icon fa fa-dribbble" id="cuatro"></li></a>
                 <a href="#t5"><li class="icon fa fa-plus-circle" id="cinco"></li></a>
               </ul>
+              </div>
               <div class="page" id="p1">
-                 <section class="icon fa fa-bolt"><span class="title">Bolt</span><span class="hint">Like this pen to see the magic!...<br> Just kidding, it won't happen anything but I'll be really happy If you do so.</span></section>
-              </div>
-              <div class="page" id="p2">
-                <section class="icon fa fa-keyboard-o"><div class="ct" id="t2">
-                 <div class="navbar navbar-inverse navbar-fixed-top">
-                       <div class="container"></div>
-                       <a class="navbar-brand" href="#">Robot Web Tools</a>
-                     </div>
 
-                     <div id="mjpeg"></div>
 
-                     <div class="container">
-                       <div id="messages">
-                         <div class="alert">
-
-                           Waiting to connect to rosbridge.
-                         </div>
-                       </div>
-                     </div>
-
-                     <div class="base">
-
-                       <div>
-                         <button class="control-Btn" id="n" value=87><span>L+</span></button>
-                         <button class="control-Btn" id="m" value=81><span>L/A +</span></button>
-                         <button class="control-Btn"  id="e" value=69><span>A+</span></button>
-                       </div>
-
-                       <div class="value">
-                         <div id="linear-published" style="color: green"></div>
-                         <div id="linear-current" style="color: red"></div>
-                       </div>
-
-                       <div class="value">
-                         <div id="angular-published" style="color: green"></div>
-                         <div id="angular-current" style="color: red"></div>
-                       </div>
-
-                       <div>
-                         <button class="control-Btn" id="x" value=88><span>L-</span></button>
-                         <button class="control-Btn" id="s" value=90><span>L/A -</span></button>
-                         <button class="control-Btn" id="c" value=67><span>A-</span></button>
-                       </div>
-
-                     </div>
-                     <div>
-                         <!-- Control Buttons -->
-                         <!-- Row 1 -->
-                         <div>
-                           <button class="control-Btn" id="u" value=85 style="font-size: 30px"><i class="fas fa-reply"></i></button>
-                           <button class="control-Btn" id="i" value=73><i class="fas fa-angle-up"></i></button>
-                           <button class="control-Btn" id="o" value=79 style="font-size: 30px"><i class="fas fa-share"></i></button>
-                         </div>
-                         <!-- Row 2 -->
-                         <div>
-                           <button class="control-Btn" id="j" value=74> <span><i class="fas fa-angle-left"></i></span></button>
-                           <button class="control-Btn" id="k" value=75 style="color: red"><i class="fas fa-circle"></i></button>
-                           <button class="control-Btn" id="l" value=76><i class="fas fa-angle-right"></i></button>
-                         </div>
-                         <!-- Row -->
-                         <div>
-                           <button class="control-Btn" id="q" value=77><i class="fas fa-reply"></i></button>
-                           <button class="control-Btn"  id="z" value=188><i class="fas fa-angle-down"></i></button>
-                           <button class="control-Btn" id="w" value=190><i class="fas fa-share"></i></button>
-                         </div>
-                         <div></div>
-                     </div>
-                       <!-- <form id="custom_topic_form"></form>
-                         Subscribe Local Audio: <input type="checkbox" name="subscribe_local_audio"><br>
-                         Publish To Local Audio: <input type="checkbox" name="publish_local_audio"><br>
-                         <input type="submit" value="Go">
-                     </form> -->
+                      <div id="messages">
+                        <div class="alert">
+                          Waiting to connect to rosbridge.
+                        </div>
+                      </div>
+                    </div>
 
 
 
-                       <!-- <div class="base"> -->
-                       <div class="row">
-                         <!-- 3D Map -->
-                         <!-- <div class="col-span-8">
-                           <h3>3D Map</h3>
-                           <div id="threed-map"></div>
-                         </div> -->
 
-                         <!-- 2D Map -->
-                         <!-- <div class="col-span-4"> -->
-                           <!-- <h3>2D Map</h3> class="mainContainer"-->
-                           <div id="twod-map" ></div>
-                           <!-- <img src="location-icon_1083-93.jpg" id="marker" style="display:none; position: absolute;"/> -->
-                                          <!-- </div> -->
-
-                       <form method="POST">
-                         <div id='dynamicInput' class="formblock" >
-                                <div class="containers ">
-                               <label class="form-input-container">
-                                 <input class="form-input form-control" type="text" id="username" name="username"/>
-                                 <span class="form-input-label">
-                                   Username
-                                 </span></label></div>
-                                 <div class="containers ">
-                                 <label class="form-input-container" for="goalx">
-                                 <input class="form-input form-control" id ="goalx" name="goalx"/>
-                                 <span class="form-input-label">
-                                   X
-                                 </span>
-                                 </label></div>
-                                 <div class="containers ">
-                                 <label class="form-input-container" for="goaly">
-                                 <input class="form-input form-control"  id="goaly" name="goaly"/>
-                                 <span class="form-input-label">
-                                   Y
-                                 </span>
-                               </label></div>
-                               <div class="containers ">
-                               <label class="form-input-container">
-                                   <button  class="btn btn-primary btn-lg btn-success" id="savebtn">Save</button>
-                              </label></div>
-                              <div class='divImgContainer' onclick='ShowMarker(event);'>
-                         </div>
-                        </form>
-                       </div>
-                       <input class="form-input form-control" id ="goalpass" name="goalpass"/>
-                       <button  class="btn btn-primary btn-lg btn-success" id="goalpassbtn">Save</button>
-                       <button  class="btn btn-primary btn-lg btn-success" id="sendgoalbtn">SendGoal</button>
-                     <div id="msg">
-                           <pre></pre>
-                     </div>
-                     <!-- </div> -->
-                     <!-- Pose Table -->
-                     <div class="row" id="pose-data">
-                       <div class="span12">
-                         <h3>Robot's Pose</h3>
-                         <table id="poses" class="table table-condensed">
-                           <thead>
-                           <tr>
-                             <th>Time</th>
-                             <th>Position</th>
-                             <th>Orientation</th>
-                           </tr>
-                           </thead>
-                           <tbody>
-                           <tr></tr>
-                           </tbody>
-                         </table>
-                       </div>
-                     </div>
-
-
-                </div>
-</section>
-              </div>
-              <div class="page" id="p3">
-                <section class="icon fa fa-rocket"><span class="title">Rocket</span></section>
-              </div>
-              <div class="page" id="p4">
-                <section class="icon fa fa-dribbble">
-                  <span class="title">Dribbble</span>
-                  <p class="hint">
-                    <a href="https://dribbble.com/albertohartzet" target="_blank">Im ready to play, <span class="hint line-trough">invite me </span> find me</a>
-                  </p>
-                  <p class="hint">Already invited by <a href="http://www.dribbble.com/mrpeters" target="_blank">Stan Peters</a></p>
-                </section>
-              </div>
-              <div class="page" id="p5">
-                <section class="icon fa fa-plus-circle">
-                  <span class="title">More</span>
-                  <p class="hint">
-                    <span>You love one page & CSS only stuff? </span><br/>
-                    <a href="https://codepen.io/hrtzt/details/pgXMYb/" target="_blank">check this pen "Pure CSS One page vertical navigation"</a>
-                  </p>
-                </section>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
 
   </body>
 </html>

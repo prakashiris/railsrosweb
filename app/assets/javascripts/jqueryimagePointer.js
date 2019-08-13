@@ -1,8 +1,8 @@
-let i =0 ;
+var i =0 ;
 var locdata = [] ;
 (function($) {
    $.fn.imagePointer = function(options){
-       var elmObj = $(this); 
+       var elmObj = $(this);
        var imgPointer = new $.imagePointerClass(elmObj, options);
        imgPointer.init();
        elmObj.mousemove(function(evnt){
@@ -24,13 +24,13 @@ var locdata = [] ;
    $.imagePointerClass = function(elmObj, options){
        var thisObj = this;
        var defaultOptions = {
-           
+
            "multi"              : true,
            "mouseOverHTML"      : '<div class="fa fa-map-marker fa-3x pointerElm"></div>',
            "pointerHTML"        : '<div class="fa fa-map-marker fa-3x pointerElm"></div>',
            "pointerClass"       : 'CCImgPointer'
-           
-          
+
+
        };
        thisObj.options      = $.extend(defaultOptions, options);
     //    thisObj.mElement     = false;
@@ -41,7 +41,7 @@ var locdata = [] ;
        thisObj.dElement     = false;
        thisObj.selctionAttrs = false;
        thisObj.init = function(){
-           thisObj.isFixed  = thisObj.options.disable; 
+           thisObj.isFixed  = thisObj.options.disable;
         //    if(!thisObj.isFixed){
         //         thisObj.elmObj.css("cursor", thisObj.options.cursor);
         //    }
@@ -79,12 +79,12 @@ var locdata = [] ;
     //        thisObj.mElement.animate({
     //            top  : (thisObj.cYPos - thisObj.mOffSet.top),
     //            left : (thisObj.cXPos - thisObj.mOffSet.left)
-    //        }, 
-    //        "slow", 
-    //        "swing", 
+    //        },
+    //        "slow",
+    //        "swing",
     //        function(){
     //           thisObj.isFixed      = false;
-    //           thisObj.fixPointer(); 
+    //           thisObj.fixPointer();
     //        });
     //        return true;
     //    };
@@ -117,7 +117,7 @@ var locdata = [] ;
             i=i+1;
 
         }
-         
+
            return true;
        };
     //    thisObj.dragSelection = function(){
@@ -137,7 +137,7 @@ var locdata = [] ;
     //        selctionAttrs.width      = Math.abs(thisObj.dragElmCord.left - thisObj.mXPos);
     //        selctionAttrs.height     = Math.abs(thisObj.dragElmCord.top - thisObj.mYPos);
     //        thisObj.dElement.css({
-    //             'left' : (selctionAttrs.left) + 'px', 
+    //             'left' : (selctionAttrs.left) + 'px',
     //             'top' :  (selctionAttrs.top) + 'px',
     //             'width' : (selctionAttrs.width) + 'px',
     //             'height' : (selctionAttrs.height) + 'px'
@@ -181,7 +181,7 @@ var locdata = [] ;
         //    }
            return true;
        };
-       
+
     //    thisObj.removeMOverObj = function(){
     //        if((!thisObj.mElement) || (thisObj.mElement.length === 0) || (thisObj.isFixed)){
     //            return true;
@@ -219,8 +219,8 @@ var locdata = [] ;
            return true;
        };
        thisObj.checkInRange = function(mXPos, mYPos){
-        if((mXPos >= thisObj.elmXMin) && (mXPos <= thisObj.elmXMax)  
-             && (mYPos >= thisObj.elmYMin) && (mYPos <= thisObj.elmYMax) 
+        if((mXPos >= thisObj.elmXMin) && (mXPos <= thisObj.elmXMax)
+             && (mYPos >= thisObj.elmYMin) && (mYPos <= thisObj.elmYMax)
         ){
                 return true;
         }
@@ -257,11 +257,11 @@ var locdata = [] ;
        };
        thisObj.placePointer = function(elmObj, posData){
             elmObj.css({
-                'left' : (posData.left) + 'px', 
+                'left' : (posData.left) + 'px',
                 'top' :  (posData.top) + 'px'
             });
-             
-            
+
+
             return true;
        };
        thisObj.createFixedElement = function(){
@@ -270,7 +270,7 @@ var locdata = [] ;
            }
            var drawData         = thisObj.createElement(thisObj.options.pointerHTML);
            var pointerInfo      = {
-               'top' : (thisObj.cYPos - drawData.offSet.top), 
+               'top' : (thisObj.cYPos - drawData.offSet.top),
                'left' : (thisObj.cXPos - drawData.offSet.left)
            };
            drawData.elmObj.addClass(thisObj.options.pointerClass)
@@ -295,7 +295,7 @@ var locdata = [] ;
     //         for(var i=0; i<posData.length; i++){
     //            var drawData         = thisObj.createElement(thisObj.options.pointerHTML);
     //            var pointerInfo      = {
-    //                'top' : ((posData[i].top + thisObj.elmYMin) - drawData.offSet.top), 
+    //                'top' : ((posData[i].top + thisObj.elmYMin) - drawData.offSet.top),
     //                'left' : ((posData[i].left + thisObj.elmXMin) - drawData.offSet.left)
     //            };
     //            drawData.elmObj.addClass(thisObj.options.pointerClass)
@@ -303,7 +303,7 @@ var locdata = [] ;
     //            if(posData[i].selctionAttrs){
     //                drawData             = thisObj.createElement(thisObj.dElementHTML, false);
     //                var selectionAttr    = {
-    //                     'top' : (posData[i].selctionAttrs.top + thisObj.elmYMin), 
+    //                     'top' : (posData[i].selctionAttrs.top + thisObj.elmYMin),
     //                     'left' : (posData[i].selctionAttrs.left + thisObj.elmXMin),
     //                     'height' : (posData[i].selctionAttrs.height),
     //                     'width' : (posData[i].selctionAttrs.width)
