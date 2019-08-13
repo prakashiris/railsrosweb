@@ -14,3 +14,16 @@
 //= require activestorage
 //= require turbolinks
 //= require_tree .
+require jquery
+require display
+require eventemitter2
+require keyboardteleop
+require teleop
+require easeljs
+require eventemitter2min
+require roslibmin
+require ros2d
+require nav2d
+require roslib
+require jqueryimagePointer
+require checkpoint

@@ -1,5 +1,9 @@
 class RosuiController < ApplicationController
-  def new
-  end
+  def home
 
+    render layout:false
+  end
+  def index
+    render layout:false
+  end
 end
