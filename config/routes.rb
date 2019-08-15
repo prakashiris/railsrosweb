@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
-  get 'rosui/checkpoint'
-  root 'rosui#checkpoint'
+
   get 'rosui/teleop'
 
   root 'rosui#teleop'
-  get 'rosui/index'
-  root 'rosui#index'
+  get 'rosui/_index'
+  get 'rosui/checkpoint'
+  get 'rosui/_reading'
   get 'welcome/final'
-  root 'welcome#final'
 end

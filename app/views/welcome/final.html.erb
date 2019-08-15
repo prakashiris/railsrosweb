@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <!-- <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" /> -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> 
-     
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
         <!-- The default styling is provided by http://getbootstrap.com -->
         <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/main.css" rel="stylesheet">
@@ -23,9 +23,9 @@
 
         <script  src="js/keyboardteleop.js"></script>
         <script  src="src/teleop/Teleop.js"></script>
-       
+
         <!--KeyBoard access-->
-       
+
         <!-- ROSLIBJS -->
         <!-- EventEmitter2 is the sole dependency of roslibjs -->
 
@@ -37,7 +37,7 @@
         <script  src="js/nav2d.min.js"></script>
         <!-- <script  src="js/nav2d.js"></script> -->
         <script  src="js/roslib.js"></script>
-        
+
 
         <!-- ROS2DJS -->
         <!-- EaselJS is a dependency of ros2djs -->
@@ -48,9 +48,9 @@
         <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
         <title>jQuery imagePointer.js Demo</title>
         <link href="http://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-   
-       
-        
+
+
+
         <!-- ROS3DJS -->
         <!-- Three.js is the WebGL rendering library -->
         <!-- <script src="js/three.js"></script> -->
@@ -68,10 +68,10 @@
         <script   src="checkpoint.js"></script>
         <!-- <script  src="zoommarker.min.js"></script> -->
         <script type="text/javascript">
-     
+
             $(document).ready(function(){
             // var currCord = getCoord();
-           
+
             $(".mainContainer").imagePointer({
                 // pointerArray    : currCord,
                 pointerCallBack : function(pointerInfo){
@@ -81,7 +81,7 @@
                     // document.cookie="coord=" + JSON.stringify(currCord);
                 }
             });
-         
+
         });
         // function getCoord(){
         //     var currCord = getCookie("coord");
@@ -102,17 +102,17 @@
         //     }
         //     return "";
         // }
-      
-    
+
+
    </script>
 
-        <script> 
+        <script>
 
           function init() {
             // ----------------------------------------------------------------------
             // Connecting to rosbridge
             // ----------------------------------------------------------------------
-      
+
             // The Ros object is responsible for connecting to rosbridge.
             var ros = new ROSLIB.Ros();
             // When a connection is established with rosbridge, a 'connection' event
@@ -125,12 +125,12 @@
             });
             // Connects to rosbridge.
             ros.connect('ws://192.168.31.72:9090');
-      
+
             // ----------------------------------------------------------------------
             // Subscribing to the robot's Pose
             // ----------------------------------------------------------------------
             //Initialize the teleop.
-      
+
             //   var listener = new ROSLIB.Topic({
             //     ros : ros,
             //     name : '/audio',
@@ -157,8 +157,8 @@
           //   topic : '/camera/rgb/image_raw',
           //   interval: 200
           // });
-      
-         
+
+
             // The ROSLIB.Topic handles subscribing and publishing a ROS topic. This
             // topic interacts with the /robot_pose topic, published by the robot.
             var poseTopic = new ROSLIB.Topic({
@@ -185,20 +185,20 @@
                       + '<td>' + position + '</td>'
                       + '<td>' + orientation + '</td>');
             });
-      
+
             // ----------------------------------------------------------------------
             // Displaying a map
             // ----------------------------------------------------------------------
-      
+
             // The ROS2D.Viewer is a 2D scene manager with additional ROS
             // functionality.
             var viewer2D = new ROS2D.Viewer({
               divID : 'twod-map',
               width : 1000,
               height : 400,
-              
+
             });
-            
+
             // viewer2D.shift(10, -50);
             // Subscribes to the robot's OccupancyGrid, which is ROS representation of
             // the map, and renders the map in the scene.
@@ -220,7 +220,7 @@
                 rootObject : viewer2D.scene,
                 viewer : viewer2D,
                 serverName : '/move_base'
-             }); 
+             });
              console.log("asas")
 
 
@@ -228,7 +228,7 @@
             // ----------------------------------------------------------------------
             // Showing the pose on the map
             // ----------------------------------------------------------------------
-            
+
             function displayPoseMarker() {
               // Create a marker representing the robot.
               var robotMarker = new ROS2D.NavigationArrow({
@@ -238,11 +238,11 @@
                 pulse : true
               });
               robotMarker.visible = false;
-      
+
               // Add the marker to the 2D scene.
               gridClient.rootObject.addChild(robotMarker);
               var initScaleSet = false;
-      
+
               // Subscribe to the robot's pose updates.
               var poseListener = new ROSLIB.Topic({
                 ros : ros,
@@ -263,15 +263,15 @@
                 robotMarker.rotation = viewer2D.scene.rosQuaternionToGlobalTheta(pose.orientation);
                 robotMarker.visible = true;
 
-              });  
+              });
             }
             }
-           
-           
+
+
             // ----------------------------------------------------------------------
             // Rendering the robot in 3D
             // ----------------------------------------------------------------------
-      
+
             // Create the scene manager and view port for the 3D world.
             // var viewer3D = new ROS3D.Viewer({
             //   divID      : 'threed-map',
@@ -280,7 +280,7 @@
             //   antialias  : true,
             //   background : '#EEEEEE'
             // });
-      
+
             // // Create a TF client that subscribes to the fixed frame.
             // var tfClient = new ROSLIB.TFClient({
             //   ros          : ros,
@@ -288,7 +288,7 @@
             //   transThres   : 0.01,
             //   rate         : 10.0
             // });
-      
+
             // // Add the URDF model of the robot.
             // var urdfClient = new ROS3D.UrdfClient({
             //   ros        : ros,
@@ -296,11 +296,11 @@
             //   path       : 'http://resources.robotwebtools.org/',
             //   rootObject : viewer3D.scene
             // });
-      
+
             // // ----------------------------------------------------------------------
             // // Rendering the map in 3D
             // // ----------------------------------------------------------------------
-      
+
             // // Add the Occupancy Grid map.
             // var grid = new ROS3D.OccupancyGridClient({
             //   ros        : ros,
@@ -313,11 +313,11 @@
             //   grid.currentGrid.children[0].material.opacity = 0.25;
             //   grid.currentGrid.children[0].material.needsUpdate = true;
             // });
-      
+
             // // ----------------------------------------------------------------------
             // // 3D all the things
             // // ----------------------------------------------------------------------
-      
+
             // // Load the 3D mesh of the Willow Garage floorplan.
             // var building = new ROS3D.SceneNode({
             //   tfClient : tfClient,
@@ -342,12 +342,12 @@
             // });
             // // Add the floorplan mesh to the 3D scene.
             // viewer3D.addObject(building);
-          
+
           /**
            * Setup all GUI elements when the page is loaded.
            */
         
-              
+
         </script>
       </head>
       <body onload="init()">
@@ -355,20 +355,20 @@
         <div class="container"></div>
         <a class="navbar-brand" href="#">Robot Web Tools</a>
       </div>
-      
+
       <div id="mjpeg"></div>
-      
+
       <div class="container">
         <div id="messages">
           <div class="alert">
-      
+
             Waiting to connect to rosbridge.
           </div>
         </div>
       </div>
 
       <div class="base">
-      
+
         <div>
           <button class="control-Btn" id="n" value=87><span>L+</span></button>
           <button class="control-Btn" id="m" value=81><span>L/A +</span></button>
@@ -379,12 +379,12 @@
           <div id="linear-published" style="color: green"></div>
           <div id="linear-current" style="color: red"></div>
         </div>
-        
+
         <div class="value">
           <div id="angular-published" style="color: green"></div>
           <div id="angular-current" style="color: red"></div>
         </div>
-        
+
         <div>
           <button class="control-Btn" id="x" value=88><span>L-</span></button>
           <button class="control-Btn" id="s" value=90><span>L/A -</span></button>
@@ -419,9 +419,9 @@
           Publish To Local Audio: <input type="checkbox" name="publish_local_audio"><br>
           <input type="submit" value="Go">
       </form> -->
-      
-          
-      
+
+
+
         <!-- <div class="base"> -->
         <div class="row">
           <!-- 3D Map -->
@@ -429,14 +429,14 @@
             <h3>3D Map</h3>
             <div id="threed-map"></div>
           </div> -->
-      
+
           <!-- 2D Map -->
           <!-- <div class="col-span-4"> -->
             <!-- <h3>2D Map</h3> class="mainContainer"-->
             <div id="twod-map" ></div>
             <!-- <img src="location-icon_1083-93.jpg" id="marker" style="display:none; position: absolute;"/> -->
                            <!-- </div> -->
-        
+
         <form method="POST">
           <div id='dynamicInput' class="formblock" >
                  <div class="containers ">
@@ -465,9 +465,10 @@
                </label></div>
                <div class='divImgContainer' onclick='ShowMarker(event);'>
           </div>
-         </form>  
+         </form>
+
         </div>
-        <input class="form-input form-control" id ="goalpass" name="goalpass"/>         
+        <input class="form-input form-control" id ="goalpass" name="goalpass"/>
         <button  class="btn btn-primary btn-lg btn-success" id="goalpassbtn">Save</button>
         <button  class="btn btn-primary btn-lg btn-success" id="sendgoalbtn">SendGoal</button>
       <div id="msg">
@@ -493,5 +494,4 @@
         </div>
       </div>
   </body>
-</html> 
-      
+</html>

@@ -45,7 +45,7 @@ var locdata = [] ;
         //    if(!thisObj.isFixed){
         //         thisObj.elmObj.css("cursor", thisObj.options.cursor);
         //    }
-           var elmOffset    = thisObj.elmObj.offset();
+          var elmOffset    = thisObj.elmObj.offset();
            thisObj.elmXMin  = elmOffset.left;
            thisObj.elmXMax  = thisObj.elmXMin + thisObj.elmObj.outerWidth();
            thisObj.elmYMin  = elmOffset.top;

@@ -43,10 +43,10 @@ KEYBOARDTELEOP.Teleop = function(options) {
     let published_x = 0, published_z = 0;
     let current_x = 0.5, current_z = 1.0;
 
-    document.getElementById("linear-current").innerHTML = current_x.toFixed(4);
-    document.getElementById("angular-current").innerHTML = current_z.toFixed(4);
-    document.getElementById("linear-published").innerHTML = published_x.toFixed(4);
-    document.getElementById("angular-published").innerHTML = published_z.toFixed(4);
+    // document.getElementById("linear-current").innerHTML = current_x.toFixed(4);
+    // document.getElementById("angular-current").innerHTML = current_z.toFixed(4);
+    // document.getElementById("linear-published").innerHTML = published_x.toFixed(4);
+    // document.getElementById("angular-published").innerHTML = published_z.toFixed(4);
 
     let cmdVel = new ROSLIB.Topic({
         ros : ros,

@@ -5,29 +5,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css"/>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <title>ROSWEBUI</title>
-
+    <script type="text/javascript">
+      var ros = new ROSLIB.Ros();
+      // When a connection is established with rosbridge, a 'connection' event
+      // is emitted. In the event callback, we print a success message to the
+      // screen.
+      ros.on('connection', function() {
+        // displaySuccess is a convenience function for outputting messages in
+        // HTML.
+        displaySuccess('Roslibjs connected to rosbridge.');
+      });
+      // Connects to rosbridge.
+      ros.connect('ws://192.168.31.72:9090');
+    </script>
 
     <%= stylesheet_link_tag "application" %>
     <%= javascript_include_tag "application" %>
     <title></title>
 
   </head>
-  <body onload="init()">
+  <body onload="init()" onLoad=" LoadOnce()">
 
-              <ul id="menu">
-                <a href="index"><li class="icon fa fa-bolt" id="uno"></li></a>
-                <a href="teleop"><li class="icon fa fa-keyboard-o" id="dos"></li></a>
-                <a href="checkpoint"><li class="icon fa fa-rocket" id="tres"></li></a>
-                <a href="#t4"><li class="icon fa fa-dribbble" id="cuatro"></li></a>
-                <a href="#t5"><li class="icon fa fa-plus-circle" id="cinco"></li></a>
-              </ul>
+            <%= render 'index' %>
 
               <div class="page" id="p2">
-                <div class="row">
-                  <div id="twod-map" ></div>
-
-                </div>
-
+                
+                    <%= render 'reading' %>
                 <div class="base">
 
                   <div>

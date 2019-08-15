@@ -5,6 +5,7 @@
         // ----------------------------------------------------------------------
 
         // The Ros object is responsible for connecting to rosbridge.
+
         var ros = new ROSLIB.Ros();
         // When a connection is established with rosbridge, a 'connection' event
         // is emitted. In the event callback, we print a success message to the
@@ -16,7 +17,6 @@
         });
         // Connects to rosbridge.
         ros.connect('ws://192.168.31.72:9090');
-
         // ----------------------------------------------------------------------
         // Subscribing to the robot's Pose
         // ----------------------------------------------------------------------
@@ -36,10 +36,12 @@
         //     // If desired, we can unsubscribe from the topic as well.
         // ​
         //   });
+
         var teleop = new KEYBOARDTELEOP.Teleop({
           ros : ros,
           topic : '/robot_base/cmd_vel'
         });
+
       //   var viewer = new MJPEGCANVAS.Viewer({
       //   divID : 'mjpeg',
       //   host: "192.168.0.127",
@@ -48,7 +50,12 @@
       //   topic : '/camera/rgb/image_raw',
       //   interval: 200
       // });
+      var viewer2D = new ROS2D.Viewer({
+        divID : 'twod-map',
+        width : 1000,
+        height : 400,
 
+      });
 
         // The ROSLIB.Topic handles subscribing and publishing a ROS topic. This
         // topic interacts with the /robot_pose topic, published by the robot.
@@ -83,12 +90,7 @@
 
         // The ROS2D.Viewer is a 2D scene manager with additional ROS
         // functionality.
-        var viewer2D = new ROS2D.Viewer({
-          divID : 'twod-map',
-          width : 1000,
-          height : 400,
 
-        });
 
         // viewer2D.shift(10, -50);
         // Subscribes to the robot's OccupancyGrid, which is ROS representation of

@@ -1,14 +1,22 @@
 class RosuiController < ApplicationController
 
-  def checkpoint
+layout false
+
+  def _index
+    render layout:false
+    @coll = 'p1'
   end
   def teleop
-    # render layout:false
-      checkpoint
-  end
-  def index
     render layout:false
-    teleop
-    checkpoint
+    @coll = 'p2'
   end
+  def checkpoint
+    render layout:false
+    @coll = 'p3'
+  end
+  def _reading
+    render layout:false
+    @coll = 'p4'
+  end
+
 end
